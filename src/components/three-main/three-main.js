@@ -29,7 +29,7 @@ class ThreeMain {
 
         this.threeData = threeData
 
-        console.log("=========================")
+        console.log("============ Custom Model =============")
         //console.log(this.B_VS)
 
         console.log( "Three JS Ready " + THREE.REVISION )
