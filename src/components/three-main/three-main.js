@@ -1,7 +1,6 @@
 
 import * as THREE from 'three'
 // import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import { SceneMgr } from '../../three-objs'
 
 
 class ThreeMain {
@@ -39,24 +38,28 @@ class ThreeMain {
         this.camera.position.z = 3 //0.35 0 1200
         this.camera.position.x = 0
         this.camera.position.y = 2
-        this.camera.lookAt( new THREE.Vector3(0, 1, 0) )
+        this.camera.lookAt( new THREE.Vector3(0, 0, 0) )
 
 
         this.scene = new THREE.Scene()
         this.scene.background = new THREE.Color( 0x000000 );
 
-        //this.scene.add( this.amL )
-
         //this.cubeGroup = new CubeGroup( this.shaderMat, this.colorMat, new Vector3(1.0 , 1.0, 0.0) );
         //this.scene.add( this.cubeGroup )
-
-        //=======================================
 
         //this.axistHelper = new THREE.AxesHelper( 5 )
         //this.dirCube.add( this.axistHelper )
 
+        //=======================================
 
-        this.planeGeo = new THREE.PlaneGeometry(2, 2)
+        this.cubeGeo = new THREE.BoxGeometry( 1, 1, 1 )
+        this.cubeMat = new THREE.MeshBasicMaterial( { color: 0xffff00, wireframe: true } )
+        this.cubeMesh = new THREE.Mesh( this.cubeGeo, this.cubeMat )
+        this.scene.add( this.cubeMesh )
+
+
+
+        this.planeGeo = new THREE.PlaneGeometry(1, 1)
         this.planeMesh = new THREE.Mesh( this.planeGeo, this.dirMat )
         this.scene.add( this.planeMesh )
         this.planeMesh.rotation.x = -Math.PI / 2
@@ -80,43 +83,15 @@ class ThreeMain {
 
         //this.controls = new OrbitControls( this.camera, this.renderer.domElement )
 
-        // this.initEvent()
-        // this.onWindowResize()
-        // this.animate()
-
-        //this.sceneMgr = new SceneMgr( this.threeData.SceneDataPath,  this.onSceneProcess.bind( this ), this.onSceneFinsh.bind( this ) )
-        //this.sceneMgr.startLoad()
-
-        
-
-    }
-
-
-    //Scene Delegate
-    onSceneProcess( p ){
-        //console.log( `P: ${ p }` )
-    }
-
-    onSceneFinsh( sceneObj ){
-
-        //console.log( sceneObj )
-        //console.log( "Scene Load Finish!" )
-
-        //this.scene.add( sceneObj )
-    
-
         this.initEvent()
         this.onWindowResize()
         this.initPosition()
         this.animate()
+        
+
     }
 
     initPosition(){
-
-        //const startObj = this.sceneMgr.startObj
-        //this.camera.position.set( startObj.position.x, startObj.position.y, startObj.position.z )
-        //console.log( `Start Position: ${ startObj.position.x }  ${ startObj.position.y } ${ startObj.position.z }` )
-
 
     }
 
@@ -127,16 +102,14 @@ class ThreeMain {
     animate(){
         //console.log("animate")
         this.update()
+
+        this.cubeMesh.rotation.y += 0.01
+
+
         window.requestAnimationFrame( this.animate.bind( this ) )
     }
 
     update(){
-
-        if( this.sceneMgr ){
-            this.sceneMgr.update()
-        }
-
-
 
         this.renderer.render( this.scene, this.camera )
     }
